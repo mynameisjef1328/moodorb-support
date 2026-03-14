@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Orb — Support</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap');
+
+    :root {
+      --black: #000000;
+      --deep: #030508;
+      --blue-core: #5ba4ff;
+      --blue-mid: #3d6fd4;
+      --teal: #2db8a0;
+      --gold: #e8a84a;
+      --violet: #8b5cf6;
+      --text: rgba(255,255,255,0.82);
+      --muted: rgba(255,255,255,0.38);
+      --faint: rgba(255,255,255,0.10);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background orb */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(60, 100, 220, 0.08) 0%,
+        rgba(30, 60, 160, 0.04) 45%,
+        transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .orb-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 35%,
+        rgba(200,225,255,0.95) 0%,
+        rgba(100,160,255,0.85) 22%,
+        rgba(60,100,220,0.9) 50%,
+        rgba(30,60,180,0.95) 75%,
+        rgba(10,20,100,1) 100%);
+      box-shadow:
+        0 0 28px rgba(80,130,255,0.45),
+        0 0 60px rgba(60,100,220,0.18);
+      margin: 0 auto 28px;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.96); box-shadow: 0 0 28px rgba(80,130,255,0.45), 0 0 60px rgba(60,100,220,0.18); }
+      50%       { transform: scale(1.04); box-shadow: 0 0 40px rgba(80,130,255,0.65), 0 0 80px rgba(60,100,220,0.28); }
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Divider */
+    .divider {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--faint), transparent);
+      margin: 48px auto;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 64px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(4) { animation-delay: 0.4s; }
+    section:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blue-core);
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    /* FAQ items */
+    .faq-item {
+      border-top: 1px solid var(--faint);
+      padding: 24px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: 1px solid var(--faint);
+    }
+
+    .faq-q {
+      font-size: 18px;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .faq-a {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* How to use steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 20px 0;
+      border-top: 1px solid var(--faint);
+    }
+
+    .step:last-child { border-bottom: 1px solid var(--faint); }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--blue-core);
+      opacity: 0.6;
+      min-width: 24px;
+      padding-top: 3px;
+      letter-spacing: 0.1em;
+    }
+
+    .step-text {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .step-text strong {
+      font-weight: 400;
+      color: #fff;
+    }
+
+    /* Color journey */
+    .color-journey {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 24px 0;
+      border-radius: 4px;
+      overflow: hidden;
+      height: 4px;
+    }
+
+    .cj-seg {
+      flex: 1;
+      height: 100%;
+    }
+
+    .cj-1 { background: #5ba4ff; }
+    .cj-2 { background: #2db8a0; }
+    .cj-3 { background: #e8a84a; }
+    .cj-4 { background: #8b5cf6; }
+
+    .cj-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .cj-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Contact */
+    .contact-box {
+      background: var(--faint);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 32px 36px;
+      text-align: center;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    .contact-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--blue-core);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid rgba(91, 164, 255, 0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 48px 0 64px;
+      border-top: 1px solid var(--faint);
+      margin-top: 32px;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.5;
+      margin: 0;
+    }
+
+    /* Privacy note */
+    .privacy-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--faint);
+      border-radius: 100px;
+      padding: 6px 14px;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 32px; }
+      h2 { font-size: 24px; }
+      .container { padding: 0 20px; }
+      header { padding: 56px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="orb-icon"></div>
+    <h1>Mood Orb</h1>
+    <p class="tagline">Support &amp; Help</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <section>
+    <p class="section-label">Getting Started</p>
+    <h2>How to use Mood Orb</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <span class="step-text"><strong>Open the app.</strong> The orb will begin its gentle idle pulse automatically. On your very first launch, a silent hand animation demonstrates the interaction.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <span class="step-text"><strong>Press and hold</strong> the orb to inhale. Feel it expand slowly beneath your touch.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <span class="step-text"><strong>Release</strong> to exhale. The orb contracts back to rest.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <span class="step-text"><strong>Stay as long as you need.</strong> The orb's color shifts over time — cool blue into teal, then warm gold, deepening into violet the longer your session continues.</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px;">
+      <div class="color-journey">
+        <div class="cj-seg cj-1"></div>
+        <div class="cj-seg cj-2"></div>
+        <div class="cj-seg cj-3"></div>
+        <div class="cj-seg cj-4"></div>
+      </div>
+      <div class="cj-labels">
+        <span class="cj-label">Blue</span>
+        <span class="cj-label">Teal</span>
+        <span class="cj-label">Gold</span>
+        <span class="cj-label">Violet</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">FAQ</p>
+    <h2>Common questions</h2>
+    <div>
+      <div class="faq-item">
+        <p class="faq-q">Does Mood Orb require an account?</p>
+        <p class="faq-a">No. Mood Orb requires nothing from you — no account, no email, no sign-in of any kind. Open it and breathe.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Does it work offline?</p>
+        <p class="faq-a">Completely. Mood Orb has no internet dependency whatsoever. It works on a plane, in a tunnel, anywhere.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Will it send me notifications?</p>
+        <p class="faq-a">Never. Mood Orb will not ask for notification permissions and will never interrupt your day.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">The orb doesn't appear centered on my screen.</p>
+        <p class="faq-a">Try force-closing the app and reopening it. If the issue persists, please contact us below with your iPhone model and iOS version.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">The ghost hand animation plays every time I open the app.</p>
+        <p class="faq-a">The intro animation should only play once on first launch. If it keeps reappearing, try deleting and reinstalling the app. Your experience will not be affected as there is no data to lose.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Is there a breathing guide or timer I can follow?</p>
+        <p class="faq-a">Mood Orb is intentionally guideless. The pace is entirely yours — there is no right or wrong rhythm. Let the orb follow your breath, not the other way around.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Privacy</p>
+    <h2>What we collect</h2>
+    <p>Nothing. Mood Orb collects zero data about you or your usage. There are no analytics, no tracking, no third-party SDKs of any kind embedded in the app.</p>
+    <p>Your breath is your own.</p>
+    <div class="privacy-pills">
+      <span class="pill">No data collected</span>
+      <span class="pill">No analytics</span>
+      <span class="pill">No tracking</span>
+      <span class="pill">No third-party SDKs</span>
+      <span class="pill">Works fully offline</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Contact</p>
+    <h2>Still need help?</h2>
+    <div class="contact-box">
+      <p>We're happy to help with any questions or issues you're experiencing with Mood Orb.</p>
+      <a class="contact-link" href="mailto:support@moodorb.app">support@moodorb.app</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Mood Orb &nbsp;·&nbsp; All rights reserved</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
